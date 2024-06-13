@@ -1,95 +1,55 @@
-<h1>
-  List of all courses
-</h1>
+<h1>List of all courses</h1>
 
 <hr>
 
 <form action="/insert_course" method="post">
-  <div>
-    <label for="title_box">
-      Title
-    </label>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
 
-    <input type="text" id="title_b" name="q_title">
+  <div>
+    <label for="title_box">Title</label>
+    <input type="text" id="title_box" name="title">
   </div>
 
   <div>
-    <label for="term_offered_box">
-      Term offered
-    </label>
-
-    <input type="text" id="term_offered_box" name="query_term">
+    <label for="term_offered_box">Term offered</label>
+    <input type="text" id="term_offered_box" name="term_offered">
   </div>
 
   <div>
-    <label for="department_id_box">
-      Department
-    </label>
-
-    <select id="department_id_box" name="query_department_id">
-      <% Department.order({ :name => :asc }).each do |a_department| %>
-        <option value="<%= a_department.id %>">
-          <%= a_department.name %>
-        </option>
+    <label for="department_id_box">Department</label>
+    <select id="department_id_box" name="department_id">
+      <% Department.order(:name).each do |a_department| %>
+        <option value="<%= a_department.id %>"><%= a_department.name %></option>
       <% end %>
     </select>
   </div>
 
-  <button>
-    Create course
-  </button>
+  <button type="submit">Create course</button>
 </form>
 
 <hr>
 
 <table class="table" border="1">
   <tr>
-    <th>
-      ID
-    </th>
-
-    <th>
-      Title
-    </th>
-
-    <th>
-      Term offered
-    </th>
-
-    <th>
-      Department
-    </th>
-
-    <th>
-    </th>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Term offered</th>
+    <th>Department</th>
+    <th></th>
   </tr>
 
-  <% @course.each do |course| %>
+  <% @courses.each do |course| %>
     <tr>
+      <td><%= course.id %></td>
+      <td><%= course.title %></td>
+      <td><%= course.term_offered %></td>
       <td>
-        <%= course.id %>
-      </td>
-
-      <td>
-        <%= course.title %>
-      </td>
-
-      <td>
-        <%= course.term_offered %>
-      </td>
-
-      <td>
-        <% department = department.where({ :id => course.department_id }).at(0) %>
+        <% department = Department.find(course.department_id) %>
         <a href="/departments/<%= department.id %>"><%= department.name %></a>
       </td>
-
       <td>
-        <a href="/courses/<%= @course.id %>">
-          Show details
-        </a>
+        <a href="/courses/<%= course.id %>">Show details</a>
       </td>
     </tr>
   <% end %>
 </table>
-
-<hr>

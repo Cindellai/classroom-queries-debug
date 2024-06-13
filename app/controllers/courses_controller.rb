@@ -14,9 +14,9 @@ class CoursesController < ApplicationController
 
   def create
     @course = Course.new
-    @course.title = params.fetch("query_title")
-    @course.term_offered = params.fetch("query_term_")
-    @course.department_id = params.fetch("query_department_id")
+    @course.title = params.fetch("title")
+    @course.term_offered = params.fetch("term_offered")
+    @course.department_id = params.fetch("department_id")
 
     if @course.valid?
       @course.save
@@ -43,7 +43,7 @@ class CoursesController < ApplicationController
   end
 
   def destroy
-    the_id = params.fetch("path")
+    the_id = params.fetch("path_id")
     @course = Course.where({ :id => the_id }).at(0)
 
     @course.destroy
